@@ -41,6 +41,7 @@ import com.apprajapati.compose_todo.R
 import com.apprajapati.compose_todo.data.models.Priority
 import com.apprajapati.compose_todo.ui.components.PriorityItem
 import com.apprajapati.compose_todo.ui.theme.APP_BAR_HEIGHT
+import com.apprajapati.compose_todo.ui.theme.Purple80
 import com.apprajapati.compose_todo.ui.theme.SMALL_PADDING
 import com.apprajapati.compose_todo.ui.theme.Typography
 import com.apprajapati.compose_todo.ui.theme.md_theme_light_primaryContainer
@@ -178,26 +179,26 @@ fun DefaultAppbarActionSort(onFilterClicked: (Priority) -> Unit) {
     }
     DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
         DropdownMenuItem(
-            text = { PriorityItem(priority = Priority.LOW) },
+            text = { PriorityItem(priority = Priority.LOW, true) },
             onClick = {
                 expanded = false
                 onFilterClicked(Priority.LOW)
             })
         DropdownMenuItem(
-            text = { PriorityItem(priority = Priority.MEDIUM) },
+            text = { PriorityItem(priority = Priority.MEDIUM, true) },
             onClick = {
                 expanded = false
                 onFilterClicked(Priority.MEDIUM)
 
             })
         DropdownMenuItem(
-            text = { PriorityItem(priority = Priority.HIGH) },
+            text = { PriorityItem(priority = Priority.HIGH, true) },
             onClick = {
                 expanded = false
                 onFilterClicked(Priority.HIGH)
             })
         DropdownMenuItem(
-            text = { PriorityItem(priority = Priority.NONE) },
+            text = { PriorityItem(priority = Priority.NONE, true) },
             onClick = {
                 expanded = false
                 onFilterClicked(Priority.NONE)
@@ -226,7 +227,7 @@ fun SearchAppBar(
             .padding(top = 55.dp)
             .height(APP_BAR_HEIGHT),
         shadowElevation = 4.dp,
-        // color = MaterialTheme.colorScheme.primary,
+        color = md_theme_light_primaryContainer,
         //RoundedCornerShape(50)
     ) {
         TextField(
@@ -280,12 +281,10 @@ fun SearchAppBar(
                 onSearchClicked(searchString)
             }),
             colors = TextFieldDefaults.colors(
-                cursorColor = MaterialTheme.colorScheme.contentColorFor(
-                    md_theme_light_primaryContainer
-                ),
-                focusedIndicatorColor = Color.Transparent,
+                cursorColor = Color.Gray,
+                focusedIndicatorColor = Color.Green,
                 disabledIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Red,
             )
         )
     }

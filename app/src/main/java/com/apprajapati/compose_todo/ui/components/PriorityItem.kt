@@ -16,23 +16,26 @@ import com.apprajapati.compose_todo.ui.theme.PRIORITY_INDICATOR_SIZE
 import com.apprajapati.compose_todo.ui.theme.Typography
 
 @Composable
-fun PriorityItem(priority: Priority) {
+fun PriorityItem(priority: Priority, isShowText: Boolean) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Canvas(modifier = Modifier.size(PRIORITY_INDICATOR_SIZE)) {
             drawCircle(color = priority.color)
         }
-        Text(
-            modifier = Modifier.padding(start = 5.dp),
-            text = priority.name,
-            style = Typography.titleSmall,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+        if (isShowText) {
+            Text(
+                modifier = Modifier.padding(start = 5.dp),
+                text = priority.name,
+                style = Typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+
     }
 }
 
 @Composable
 @Preview
 fun priortyPreview() {
-    PriorityItem(priority = Priority.HIGH)
+    PriorityItem(priority = Priority.HIGH, true)
 }
 

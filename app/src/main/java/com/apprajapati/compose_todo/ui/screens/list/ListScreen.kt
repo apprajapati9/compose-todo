@@ -1,5 +1,7 @@
 package com.apprajapati.compose_todo.ui.screens.list
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
@@ -7,10 +9,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.apprajapati.compose_todo.R
+import com.apprajapati.compose_todo.data.models.Priority
+import com.apprajapati.compose_todo.data.models.Task
 import com.apprajapati.compose_todo.ui.screens.appbar.ListAppbar
 import com.apprajapati.compose_todo.ui.viewmodels.SharedViewModel
 import com.apprajapati.compose_todo.util.SearchAppbarState
@@ -23,9 +28,23 @@ fun ListScreen(viewModel: SharedViewModel, navigateToTaskScreen: (taskId: Int) -
 
     Scaffold(topBar = {
         ListAppbar(viewModel, searchAppbarState, searchStringState)
-    }, floatingActionButton = {
-        ListFAB(onFabClicked = navigateToTaskScreen)
-    }, content = { })
+    },
+        content = { padding ->
+            Column(modifier = Modifier.padding(padding)) {
+                ListContent(
+                    Task(
+                        priority = Priority.HIGH,
+                        task = "Do coding everyday",
+                        taskDescription = "C++ algorithms and Kotlin"
+                    )
+                ) {
+
+                }
+            }
+
+        }, floatingActionButton = {
+            ListFAB(onFabClicked = navigateToTaskScreen)
+        })
 }
 
 @Composable
