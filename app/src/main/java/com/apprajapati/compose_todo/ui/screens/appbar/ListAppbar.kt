@@ -46,6 +46,7 @@ import com.apprajapati.compose_todo.ui.theme.Typography
 import com.apprajapati.compose_todo.ui.theme.md_theme_light_primaryContainer
 import com.apprajapati.compose_todo.ui.viewmodels.SharedViewModel
 import com.apprajapati.compose_todo.util.SearchAppbarState
+import com.apprajapati.compose_todo.util.TrailingIconState
 
 @Composable
 fun ListAppbar(
@@ -55,21 +56,25 @@ fun ListAppbar(
 ) {
     when (searchState) {
         SearchAppbarState.CLOSED -> {
-            DefaultAppBar(onSearchClicked = {
-                mViewModel.searchAppbarState.value = SearchAppbarState.OPENED
-            }, onFilterClicked = {
+            DefaultAppBar(
+                onSearchClicked = {
+                    mViewModel.searchAppbarState.value = SearchAppbarState.OPENED
+                }, onFilterClicked = {
 
-            }, onDeleteAll = {
+                }, onDeleteAll = {
 
-            })
+                })
         }
 
         else -> {
             SearchAppBar(
-                searchString = "Search",
-                onTextChange = {},
+                searchString = searchTextState,
+                onTextChange = { searchString ->
+                    mViewModel.searchTextState.value = searchString
+                },
                 onCloseClicked = {
                     mViewModel.searchAppbarState.value = SearchAppbarState.CLOSED
+                    mViewModel.searchTextState.value = ""
                 },
                 onSearchClicked = {})
         }
@@ -210,11 +215,15 @@ fun SearchAppBar(
     onSearchClicked: (String) -> Unit
 ) {
 
+    var trailingIconState by remember {
+        mutableStateOf(TrailingIconState.CLOSE)
+    }
+
     Surface(
         shape = RectangleShape,// RoundedCornerShape(50),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 60.dp)
+            .padding(top = 55.dp)
             .height(APP_BAR_HEIGHT),
         shadowElevation = 4.dp,
         // color = MaterialTheme.colorScheme.primary,
@@ -223,14 +232,14 @@ fun SearchAppBar(
         TextField(
             value = searchString,
             onValueChange = {
-                onTextChange(searchString)
+                onTextChange(it)
             },
             modifier = Modifier.fillMaxWidth(),
             placeholder = {
                 Text(
                     modifier = Modifier.alpha(0.5f),
                     text = stringResource(id = R.string.search_bar_placeholder_string),
-                    color = Color.White
+                    //color = Color.White
                 )
             },
             textStyle = TextStyle(color = MaterialTheme.colorScheme.contentColorFor(Color.White)),
@@ -244,7 +253,21 @@ fun SearchAppBar(
             },
             trailingIcon = {
                 IconButton(onClick = {
-                    onCloseClicked()
+                    when (trailingIconState) {
+                        TrailingIconState.DELETE -> {
+                            onTextChange("")
+                            trailingIconState = TrailingIconState.CLOSE
+                        }
+
+                        TrailingIconState.CLOSE -> {
+                            if (searchString.isNotEmpty()) {
+                                onTextChange("")
+                            } else {
+                                onCloseClicked()
+                                trailingIconState = TrailingIconState.DELETE
+                            }
+                        }
+                    }
                 }) {
                     Icon(
                         imageVector = Icons.Filled.Close,
