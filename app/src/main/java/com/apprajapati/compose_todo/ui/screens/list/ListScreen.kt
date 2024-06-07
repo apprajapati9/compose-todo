@@ -8,14 +8,14 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.apprajapati.compose_todo.R
-import com.apprajapati.compose_todo.data.models.Priority
-import com.apprajapati.compose_todo.data.models.Task
 import com.apprajapati.compose_todo.ui.screens.appbar.ListAppbar
 import com.apprajapati.compose_todo.ui.viewmodels.SharedViewModel
 import com.apprajapati.compose_todo.util.SearchAppbarState
@@ -26,17 +26,19 @@ fun ListScreen(viewModel: SharedViewModel, navigateToTaskScreen: (taskId: Int) -
     val searchAppbarState: SearchAppbarState by viewModel.searchAppbarState
     val searchStringState: String by viewModel.searchTextState
 
+    LaunchedEffect(key1 = true) {
+        viewModel.getAllTasks()
+    }
+
+    val allTasks by viewModel.allTasks.collectAsState() //instead of passing allTasks.value from StateFlow, you can use "by" keyword in allTasks declaration
+
     Scaffold(topBar = {
         ListAppbar(viewModel, searchAppbarState, searchStringState)
     },
         content = { padding ->
             Column(modifier = Modifier.padding(padding)) {
                 ListContent(
-                    Task(
-                        priority = Priority.HIGH,
-                        task = "Do coding everyday",
-                        taskDescription = "C++ algorithms and Kotlin"
-                    )
+                    allTasks
                 ) {
 
                 }
