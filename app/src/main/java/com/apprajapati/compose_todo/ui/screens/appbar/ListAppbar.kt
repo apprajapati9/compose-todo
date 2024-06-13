@@ -18,9 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,7 +41,6 @@ import com.apprajapati.compose_todo.ui.components.PriorityItem
 import com.apprajapati.compose_todo.ui.theme.APP_BAR_HEIGHT
 import com.apprajapati.compose_todo.ui.theme.SMALL_PADDING
 import com.apprajapati.compose_todo.ui.theme.Typography
-import com.apprajapati.compose_todo.ui.theme.md_theme_light_primaryContainer
 import com.apprajapati.compose_todo.ui.viewmodels.SharedViewModel
 import com.apprajapati.compose_todo.util.SearchAppbarState
 import com.apprajapati.compose_todo.util.TrailingIconState
@@ -95,7 +92,7 @@ fun DefaultAppBar(
         actions = {
             DefaultAppbarActions(onSearchClicked, onFilterClicked, onDeleteAll)
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = md_theme_light_primaryContainer)
+        //colors = TopAppBarDefaults.topAppBarColors(containerColor = md_theme_light_primaryContainer)
     )
 }
 
@@ -120,7 +117,6 @@ fun DefaultAppbarActionSearch(onSearchClicked: () -> Unit) {
             Icon(
                 imageVector = Icons.Filled.Search,
                 contentDescription = stringResource(id = R.string.search_icon_content_desc),
-                tint = Color.Black
             )
         })
 }
@@ -139,8 +135,8 @@ fun DefaultAppbarActionDeleteAll(onDeleteAll: () -> Unit) {
             Icon(
                 imageVector = Icons.Filled.MoreVert,
                 contentDescription = stringResource(id = R.string.more_menu_drop_down),
-                tint = Color.Black
-            )
+
+                )
         })
     DropdownMenu(expanded = isOpen, onDismissRequest = { isOpen = false }) {
         DropdownMenuItem(
@@ -173,7 +169,6 @@ fun DefaultAppbarActionSort(onFilterClicked: (Priority) -> Unit) {
         Icon(
             painter = painterResource(id = R.drawable.ic_filter_list),
             contentDescription = stringResource(id = R.string.filter_icon_content_desc),
-            tint = Color.Black
         )
     }
     DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
@@ -226,7 +221,7 @@ fun SearchAppBar(
             .padding(top = 55.dp)
             .height(APP_BAR_HEIGHT),
         shadowElevation = 4.dp,
-        color = md_theme_light_primaryContainer,
+        //color = md_theme_light_primaryContainer,
         //RoundedCornerShape(50)
     ) {
         TextField(
@@ -279,12 +274,12 @@ fun SearchAppBar(
             keyboardActions = KeyboardActions(onSearch = {
                 onSearchClicked(searchString)
             }),
-            colors = TextFieldDefaults.colors(
-                cursorColor = Color.Gray,
-                focusedIndicatorColor = Color.Green,
-                disabledIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Red,
-            )
+//            colors = TextFieldDefaults.colors(
+//                cursorColor = Color.Gray,
+//                focusedIndicatorColor = Color.Green,
+//                disabledIndicatorColor = Color.Transparent,
+//                unfocusedIndicatorColor = Color.Red,
+//            )
         )
     }
 }

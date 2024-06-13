@@ -43,9 +43,7 @@ fun DisplayTask(tasks: List<Task>, navigateToTaskScreen: (taskId: Int) -> Unit) 
     LazyColumn {
         item(contentType = tasks) {
             for (task in tasks) {
-                TaskItem(todoTask = task) {
-                    navigateToTaskScreen(it)
-                }
+                TaskItem(todoTask = task, navigateToTaskScreen = navigateToTaskScreen)
             }
         }
     }
