@@ -22,12 +22,25 @@ import com.apprajapati.compose_todo.data.models.Priority
 import com.apprajapati.compose_todo.data.models.Task
 import com.apprajapati.compose_todo.ui.components.PriorityItem
 import com.apprajapati.compose_todo.ui.theme.LARGE_PADDING
+import com.apprajapati.compose_todo.util.RequestState
 
 @Composable
-fun ListContent(tasks: List<Task>, navigateToTaskScreen: (taskId: Int) -> Unit) {
+fun ListContent(tasks: RequestState<List<Task>>, navigateToTaskScreen: (taskId: Int) -> Unit) {
 
+    if (tasks is RequestState.Success) {
+        if (tasks.data.isNotEmpty()) {
+            DisplayTask(tasks = tasks.data, navigateToTaskScreen = navigateToTaskScreen)
+        } else {
+            NoTasksContent()
+        }
+    }
+
+}
+
+
+@Composable
+fun DisplayTask(tasks: List<Task>, navigateToTaskScreen: (taskId: Int) -> Unit) {
     LazyColumn {
-
         item(contentType = tasks) {
             for (task in tasks) {
                 TaskItem(todoTask = task) {
@@ -35,8 +48,6 @@ fun ListContent(tasks: List<Task>, navigateToTaskScreen: (taskId: Int) -> Unit) 
                 }
             }
         }
-
-
     }
 }
 

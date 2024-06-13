@@ -1,5 +1,6 @@
 package com.apprajapati.compose_todo.ui.screens.list
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -16,6 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.apprajapati.compose_todo.R
+import com.apprajapati.compose_todo.data.models.Priority
+import com.apprajapati.compose_todo.data.models.Task
 import com.apprajapati.compose_todo.ui.screens.appbar.ListAppbar
 import com.apprajapati.compose_todo.ui.viewmodels.SharedViewModel
 import com.apprajapati.compose_todo.util.SearchAppbarState
@@ -45,14 +48,25 @@ fun ListScreen(viewModel: SharedViewModel, navigateToTaskScreen: (taskId: Int) -
             }
 
         }, floatingActionButton = {
-            ListFAB(onFabClicked = navigateToTaskScreen)
+            ListFAB(onFabClicked = {
+                Log.d("Ajay", "Clicked to add task")
+                for (i in 1..5) {
+                    val task = Task(
+                        task =
+                        "Code on Leetcode task $i",
+                        taskDescription = "All about task $i",
+                        priority = Priority.MEDIUM
+                    )
+                    viewModel.insertTask(task)
+                }
+            })
         })
 }
 
 @Composable
 fun ListFAB(onFabClicked: (taskId: Int) -> Unit) {
     FloatingActionButton(onClick = {
-        //onFabClicked(-1)
+        onFabClicked(-1)
     }, content = {
         Icon(
             imageVector = Icons.Filled.Add,

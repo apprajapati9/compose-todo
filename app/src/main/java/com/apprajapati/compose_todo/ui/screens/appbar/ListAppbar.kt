@@ -41,7 +41,6 @@ import com.apprajapati.compose_todo.R
 import com.apprajapati.compose_todo.data.models.Priority
 import com.apprajapati.compose_todo.ui.components.PriorityItem
 import com.apprajapati.compose_todo.ui.theme.APP_BAR_HEIGHT
-import com.apprajapati.compose_todo.ui.theme.Purple80
 import com.apprajapati.compose_todo.ui.theme.SMALL_PADDING
 import com.apprajapati.compose_todo.ui.theme.Typography
 import com.apprajapati.compose_todo.ui.theme.md_theme_light_primaryContainer
@@ -63,7 +62,7 @@ fun ListAppbar(
                 }, onFilterClicked = {
 
                 }, onDeleteAll = {
-
+                    mViewModel.deleteAllTask()
                 })
         }
 
