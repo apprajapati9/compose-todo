@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apprajapati.compose_todo.data.models.Priority
 import com.apprajapati.compose_todo.data.models.Task
 import com.apprajapati.compose_todo.data.repositories.TodoRepository
 import com.apprajapati.compose_todo.util.RequestState
@@ -17,6 +18,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(private val repository: TodoRepository) : ViewModel() {
+
+    val id: MutableState<Int> = mutableStateOf(0)
+    val title: MutableState<String> = mutableStateOf("")
+    val description: MutableState<String> = mutableStateOf("")
+    val priority: MutableState<Priority> = mutableStateOf(Priority.LOW)
 
 
     var searchAppbarState: MutableState<SearchAppbarState> =
@@ -44,6 +50,18 @@ class SharedViewModel @Inject constructor(private val repository: TodoRepository
 
     }
 
+    private val _selectedTask: MutableStateFlow<Task?> = MutableStateFlow(null)
+    val selectedTask: StateFlow<Task?> get() = _selectedTask
+
+
+    fun getSelectedTask(taskId: Int) {
+        viewModelScope.launch {
+            repository.getSelectedTask(taskId = taskId).collect { task ->
+                _selectedTask.value = task
+            }
+        }
+    }
+
     fun insertTask(task: Task) {
         viewModelScope.launch {
             repository.addTask(task)
@@ -53,6 +71,20 @@ class SharedViewModel @Inject constructor(private val repository: TodoRepository
     fun deleteAllTask() {
         viewModelScope.launch {
             repository.deleteAllTasks()
+        }
+    }
+
+    fun updateTaskFields(selectedTask: Task?) {
+        if (selectedTask != null) {
+            title.value = selectedTask.task
+            description.value = selectedTask.taskDescription
+            id.value = selectedTask.id
+            priority.value = selectedTask.priority
+        } else {
+            title.value = ""
+            description.value = ""
+            id.value = 0
+            priority.value = Priority.LOW
         }
     }
 }

@@ -45,18 +45,18 @@ fun ListScreen(viewModel: SharedViewModel, navigateToTaskScreen: (taskId: Int) -
         }, floatingActionButton = {
             ListFAB(
                 onFabClicked = navigateToTaskScreen
-//            {
-//                Log.d("Ajay", "Clicked to add task")
-//                for (i in 1..5) {
-//                    val task = Task(
-//                        task =
-//                        "Code on Leetcode task $i",
-//                        taskDescription = "All about task $i",
-//                        priority = Priority.MEDIUM
-//                    )
-//                    viewModel.insertTask(task)
+//                {
+//                    Log.d("Ajay", "Clicked to add task")
+//                    for (i in 1..5) {
+//                        val task = Task(
+//                            task =
+//                            "Code on Leetcode task $i",
+//                            taskDescription = "All about task $i",
+//                            priority = Priority.MEDIUM
+//                        )
+//                        viewModel.insertTask(task)
+//                    }
 //                }
-//            }
             )
         })
 }

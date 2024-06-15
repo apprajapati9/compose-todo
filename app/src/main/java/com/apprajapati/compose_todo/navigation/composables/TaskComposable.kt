@@ -1,6 +1,9 @@
 package com.apprajapati.compose_todo.navigation.composables
 
 import android.util.Log
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
@@ -24,6 +27,17 @@ fun NavGraphBuilder.taskComposable(
         val taskId = navBackStackEntry.arguments!!.getInt(TASK_ARG_KEY)
         Log.d("TaskComposable", "taskComposable: $taskId ")
 
-        TaskScreen(navigateToListScreen = navigateToListScreen)
+        mViewModel.getSelectedTask(taskId = taskId)
+        val selectedTask by mViewModel.selectedTask.collectAsState()
+
+        LaunchedEffect(key1 = taskId) {
+            mViewModel.updateTaskFields(selectedTask)
+        }
+
+        TaskScreen(
+            selectedTask,
+            viewModel = mViewModel,
+            navigateToListScreen = navigateToListScreen
+        )
     }
 }
