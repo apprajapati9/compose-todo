@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.apprajapati.compose_todo.data.models.Priority
 import com.apprajapati.compose_todo.data.models.Task
 import com.apprajapati.compose_todo.data.repositories.TodoRepository
+import com.apprajapati.compose_todo.util.Constants.MAX_TITLE_LENGTH
 import com.apprajapati.compose_todo.util.RequestState
 import com.apprajapati.compose_todo.util.SearchAppbarState
 import com.apprajapati.compose_todo.util.TrailingIconState
@@ -86,5 +87,15 @@ class SharedViewModel @Inject constructor(private val repository: TodoRepository
             id.value = 0
             priority.value = Priority.LOW
         }
+    }
+
+    fun updateTitle(newTitle: String) {
+        if (newTitle.length <= MAX_TITLE_LENGTH) {
+            title.value = newTitle
+        }
+    }
+
+    fun validateFields(): Boolean {
+        return title.value.isNotEmpty()
     }
 }

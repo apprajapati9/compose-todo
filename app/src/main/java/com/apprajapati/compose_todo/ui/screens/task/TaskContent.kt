@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -31,17 +33,20 @@ fun TaskContent(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = title,
-            onValueChange = { onTitleChange(it) },
+            onValueChange = {
+                onTitleChange(it)
+            },
             label = {
                 Text(text = "Title")
             },
             textStyle = MaterialTheme.typography.titleLarge,
-            singleLine = true
+            singleLine = true,
+
+            )
+
+        HorizontalDivider(
+            Modifier.size(2.dp)
         )
-//
-//        HorizontalDivider(
-//            Modifier
-//                .size(2.dp))
 
         PriorityDropDown(priority = priority, onPrioritySelected = onPrioritySelected)
 

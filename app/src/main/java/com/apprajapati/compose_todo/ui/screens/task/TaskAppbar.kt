@@ -22,9 +22,7 @@ import com.apprajapati.compose_todo.util.Action
 fun TaskAppbar(task: Task?, navigateToListScreen: (Action) -> Unit) {
 
     if (task != null) {
-        ExistingTaskAppbar(selectedTask = task) { action ->
-            navigateToListScreen(action)
-        }
+        ExistingTaskAppbar(selectedTask = task, navigateToListScreen = navigateToListScreen)
     } else {
         NewTaskAppbar(navigateToListScreen = navigateToListScreen)
     }
