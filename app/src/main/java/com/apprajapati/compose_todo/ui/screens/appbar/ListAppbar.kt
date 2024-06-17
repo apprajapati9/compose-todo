@@ -55,7 +55,7 @@ fun ListAppbar(
         SearchAppbarState.CLOSED -> {
             DefaultAppBar(
                 onSearchClicked = {
-                    mViewModel.searchAppbarState.value = SearchAppbarState.OPENED
+                    mViewModel.updateAppBarState(newState = SearchAppbarState.OPENED)
                 }, onFilterClicked = {
 
                 }, onDeleteAll = {
@@ -67,11 +67,11 @@ fun ListAppbar(
             SearchAppBar(
                 searchString = searchTextState,
                 onTextChange = { searchString ->
-                    mViewModel.searchTextState.value = searchString
+                    mViewModel.updateSearchText(newText = searchString)
                 },
                 onCloseClicked = {
-                    mViewModel.searchAppbarState.value = SearchAppbarState.CLOSED
-                    mViewModel.searchTextState.value = ""
+                    mViewModel.updateAppBarState(newState = SearchAppbarState.CLOSED)
+                    mViewModel.updateSearchText(newText = "")
                 },
                 onSearchClicked = {})
         }

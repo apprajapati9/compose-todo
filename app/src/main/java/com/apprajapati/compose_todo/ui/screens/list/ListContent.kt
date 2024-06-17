@@ -22,10 +22,22 @@ import com.apprajapati.compose_todo.data.models.Priority
 import com.apprajapati.compose_todo.data.models.Task
 import com.apprajapati.compose_todo.ui.components.PriorityItem
 import com.apprajapati.compose_todo.ui.theme.LARGE_PADDING
+import com.apprajapati.compose_todo.util.Action
 import com.apprajapati.compose_todo.util.RequestState
+import com.apprajapati.compose_todo.util.SearchAppbarState
 
 @Composable
-fun ListContent(tasks: RequestState<List<Task>>, navigateToTaskScreen: (taskId: Int) -> Unit) {
+fun ListContent(
+    modifier: Modifier = Modifier,
+    tasks: RequestState<List<Task>>,
+    navigateToTaskScreen: (taskId: Int) -> Unit,
+    searchedTasks: RequestState<List<Task>>,
+    lowPriorityTasks: List<Task>,
+    highPriorityTasks: List<Task>,
+    sortState: RequestState<Priority>,
+    searchAppBarState: SearchAppbarState,
+    onSwipeToDelete: (Action, Task) -> Unit
+) {
 
     if (tasks is RequestState.Success) {
         if (tasks.data.isNotEmpty()) {

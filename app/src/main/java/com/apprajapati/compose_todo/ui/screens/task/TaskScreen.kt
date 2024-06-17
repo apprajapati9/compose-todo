@@ -2,13 +2,13 @@ package com.apprajapati.compose_todo.ui.screens.task
 
 import android.content.Context
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.apprajapati.compose_todo.data.models.Priority
@@ -23,15 +23,19 @@ fun TaskScreen(
     navigateToListScreen: (Action) -> Unit
 ) {
 
-    val title: String by viewModel.title
-    val description: String by viewModel.description
-    val priority: Priority by viewModel.priority
+    val title: String = viewModel.title
+    val description: String = viewModel.description
+    val priority: Priority = viewModel.priority
 
     val context = LocalContext.current
 
+    BackHandler {
+        navigateToListScreen(Action.NO_ACTION)
+    }
+
     Scaffold(topBar = {
         TaskAppbar(
-            selectedTask,
+            task = selectedTask,
             navigateToListScreen = { action ->
                 Log.d("Action in TaskScreen", "TaskScreen: $action")
                 if (action == Action.NO_ACTION) {
@@ -48,7 +52,6 @@ fun TaskScreen(
 
     }, content = { paddingValues ->
 
-        //PaddingValues(paddingValues.calculateBottomPadding())
         Surface(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
             TaskContent(
                 title = title,
@@ -56,11 +59,11 @@ fun TaskScreen(
                     viewModel.updateTitle(it)
                 },
                 onPrioritySelected = {
-                    viewModel.priority.value = it
+                    viewModel.updatePriority(it)
                 },
                 priority = priority,
                 onDescriptionChange = {
-                    viewModel.description.value = it
+                    viewModel.updateDescription(it)
                 },
                 description = description
             )

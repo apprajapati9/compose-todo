@@ -12,6 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.apprajapati.compose_todo.data.models.Priority
@@ -70,6 +74,34 @@ fun ExistingTaskAppbar(
         }
     )
 }
+
+@Composable
+fun ExistingTaskAppBarActions(
+    selectedTask: Task,
+    navigateToListScreen: (Action) -> Unit
+) {
+    var openDialog by remember {
+        mutableStateOf(false)
+    }
+
+//    DisplayAlertDialog(
+//        title = stringResource(
+//            id = R.string.delete_task,
+//            selectedTask.title
+//        ),
+//        message = stringResource(
+//            id = R.string.delete_task_confirmation,
+//            selectedTask.title
+//        ),
+//        openDialog = openDialog,
+//        closeDialog = { openDialog = false },
+//        onYesClicked = { navigateToListScreen(Action.DELETE) }
+//    )
+
+    DeleteActionButton(onDeleteClicked = { openDialog = true })
+    UpdateActionButton(onUpdateClicked = navigateToListScreen)
+}
+
 
 @Composable
 fun CloseActionButton(onCloseClicked: (Action) -> Unit) {

@@ -12,4 +12,8 @@ object Constants {
     const val TASK_ARG_KEY = "taskId"
 
     const val MAX_TITLE_LENGTH = 20
+
+    const val PREFERENCE_NAME = "task_preferences"
+    const val PREFERENCE_KEY = "sort_state"
+
 }
